@@ -10,7 +10,7 @@ This repo hosts all my presentations. :open_file_folder:
 
 I am currently using `R Markdown` and [`reveal.js`](https://reveal.js) to render `HTML` presentations. :bookmark_tabs:
 
-## 24 August 2020 - Hiscox - Introduction to `R` for CS1
+## 24 August 2020 - Introduction to `R` for CS1
 
 This [talk](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html/) introduces [IFoA](https://www.actuaries.org.uk/) actuaries sitting the CS1 exam to `R`. A more comprehensive `Rmd` paper is available for download.
 
