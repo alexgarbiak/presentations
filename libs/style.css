@@ -1,0 +1,28 @@
+.reveal .title {
+    color: #fffff0;
+}
+
+.reveal .author {
+    color: #fffff0;
+}
+
+.reveal .date {
+    color: #fffff0;
+}
+
+.reveal .white {
+    color: #fffff0;
+}
+
+.reveal h1 {
+    color: #fffff0;
+}
+
+.reveal .footnote {
+    font-size: x-small;
+    font-style: italic;
+}
+
+.reveal .leftAligned  { 
+    text-align:left; 
+}
