@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Alex Garbiak's GitHub Pages Hosted Presentations
+# Alex Garbiak's presentations hosted on GitHub
 
 This repo hosts all my presentations. :open_file_folder:
 
