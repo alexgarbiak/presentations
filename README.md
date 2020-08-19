@@ -12,9 +12,9 @@ I am currently using `R Markdown` and [`reveal.js`](https://reveal.js) to render
 
 ## 24 August 2020 - [Introduction to `R` for CS1](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html/)
 
-This [talk](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html/) introduces [IFoA](https://www.actuaries.org.uk/) actuaries sitting the CS1 exam to `R`. A more comprehensive `Rmd` paper is available for download.
+This [talk](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html/) introduces [IFoA](https://www.actuaries.org.uk/) actuaries sitting the CS1 exam to `R`. A more comprehensive `Rmd` paper will become available for download at a later date.
 
-:information_source: Prerequisites:
+:information_source: **Prerequisites**
   - Understanding of CS1 [Actuarial Statistics](https://www.actuaries.org.uk/studying/curriculum/actuarial-statistics)
   - Installation of [`R`](https://cran.rstudio.com/)
   - Installation of [RStudio](https://rstudio.com/products/rstudio/download/#download)
