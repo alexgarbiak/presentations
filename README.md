@@ -1,28 +1,26 @@
 <p align="center">
-  <a href="https://revealjs.com">
-  <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text.svg" alt="reveal.js" width="450">
+  <a href="https://alexgarbiak.com">
+  <img src="https://alexgarbiak.com/images/logo_hua7ca02a8c28c6e15133e16100d126bc4_14965_0x70_resize_lanczos_2.png" alt="Alex Garbiak">
   </a>
-  <br><br>
-  <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
-  <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
 </p>
 
-reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create fully featured and beautiful presentations for free. [Check out the live demo](https://revealjs.com/).
+# Alex Garbiak's presentations hosted on GitHub
 
-The framework comes with a broad range of features including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX support](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and much more.
+This repo hosts all my presentations. :open_file_folder:
 
-<h1>
-  <a href="https://revealjs.com/installation" style="font-size: 3em;">Get Started</a>
-</h1>
+I am currently using `R Markdown` and [`reveal.js`](https://reveal.js) to render `HTML` presentations. :bookmark_tabs:
 
-## Documentation
-The full reveal.js documentation is available at [revealjs.com](https://revealjs.com).
+## 24 August 2020 - [Introduction to `R` for CS1](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html#/)
 
-## Online Editor
-Want to create your presentation using a visual editor? Try the official reveal.js presentation platform for free at [Slides.com](https://slides.com). It's made by the same people behind reveal.js.
+This [talk](https://alexgarbiak.github.io/presentations/intro-to-r-for-cs1.html#/) introduces [IFoA](https://www.actuaries.org.uk/) actuaries sitting the CS1 exam to `R`. A more comprehensive `Rmd` paper will become available for download at a later date.
+
+:information_source: **Prerequisites**
+  - Understanding of CS1 [Actuarial Statistics](https://www.actuaries.org.uk/studying/curriculum/actuarial-statistics)
+  - Installation of [`R`](https://cran.rstudio.com/)
+  - Installation of [RStudio](https://rstudio.com/products/rstudio/download/#download)
 
 ## License
 
 MIT licensed
 
-Copyright (C) 2011-2020 Hakim El Hattab, https://hakim.se
+Copyright &copy; 2020 Alexander Garbiak, https://alexgarbiak.com
