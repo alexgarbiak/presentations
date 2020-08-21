@@ -167,9 +167,9 @@ mean(die_throws)
 
 ## Probability Distributions `r emo::ji("slot machine")`
 
-- `R` has a number of in-built functions for probability distributions
-  - **d***\<distribution-name\>* $:=$ **d**ensity, *i.e.* $\boldsymbol{P}(X>x)$
-  - **p***\<distribution-name\>* $:=$ **p**robability distribution function, *i.e.* $\boldsymbol{P}(X \leq x)$
+- `R` has in-built functions for probability distributions:
+  - **d***\<distribution-name\>* $:=$ **d**ensity (PDF), *i.e.* $f_X(x)$
+  - **p***\<distribution-name\>* $:=$ **p**robability distribution cumulative function (CDF), *i.e.* $F_X(x) =\boldsymbol{P}(X \leq x)$
   - **q***\<distribution-name\>* $:=$ **q**uantile function, *i.e.* return $x$ such that $\boldsymbol{P}(X \leq x) = p$
   - **r***\<distribution-name\>* $:=$ **r**andom deviates, *i.e.* (*psuedo*) random number generator for a given distribution
   - *Where \<distribution-name\>* $=$ Normal, uniform, lognormal, Student's t, Poisson, binormal, Weibull ... see `?distributions()`{.R} for more information
@@ -181,7 +181,7 @@ mean(die_throws)
 | `rnorm(1)`{.R} | Generates $x_1$ where $X \sim \mathcal{N}(0,\,1)$ |
 | `rnorm(y, mean=10, sd=2)`{.R} | Generates $\{y_1,\,y_2,\,\dots\}$ with $Y \sim \mathcal{N}(10,\,2^2)$ |
 | `runif(3, min=5, max=10)`{.R} | Generates $\{z_1,\,z_2,\,z_3\}$  where $Z \sim \mathcal{U}(5,\,10)$ |
-| `dbinom(4, size=5, prob=0.5)`{.R} | Computes $\boldsymbol{P}(X = 4)$ where $X \sim \mathcal{B}(5,\,0.5)$ |
+| `dbinom(4, size=5, prob=0.5)`{.R} | Computes $\boldsymbol{P}(X = 4)$ where $X \sim \mathcal{Bin}(5,\,0.5)$ |
 | `pgamma(0.2, shape=2, rate=2)`{.R}<br><span class="footnote">*See footnote</span> | Computes $F_Y(0.2)$ where $Y \sim \mathcal{\Gamma}(2,\,2)$, i.e.  $\boldsymbol{P}(Y\leq 0.2)$|
 | `qexp(0.5, rate = 2)`{.R} | Determines smallest value of $z$ for $\boldsymbol{P}(Z \leq z) = 0.5$ where $Z \sim Exp(2)$ |
 
