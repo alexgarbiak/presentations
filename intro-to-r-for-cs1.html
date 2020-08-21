@@ -565,7 +565,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb4-2"><a href="#cb4-2"></a>y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>z &lt;-<span class="st"> </span><span class="kw">sample</span>(y)</span>
 <span id="cb4-4"><a href="#cb4-4"></a>z</span></code></pre></div>
-<pre><code>## [1] 3 3 4 5 7</code></pre>
+<pre><code>## [1] 4 7 3 5 3</code></pre>
 </section><section id="matrices" class="slide level2">
 <h2>Matrices 🏛</h2>
 <p>Let’s create a <strong>matrix</strong> in <code>R</code></p>
@@ -666,10 +666,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="probability-distributions" class="slide level2">
 <h2>Probability Distributions 🎰</h2>
 <ul>
-<li class="fragment"><code>R</code> has a number of in-built functions for probability distributions
+<li class="fragment"><code>R</code> has in-built functions for probability distributions:
 <ul>
-<li class="fragment"><strong>d</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>d</strong>ensity, <em>i.e.</em> <span class="math inline">\(\boldsymbol{P}(X&gt;x)\)</span></li>
-<li class="fragment"><strong>p</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>p</strong>robability distribution function, <em>i.e.</em> <span class="math inline">\(\boldsymbol{P}(X \leq x)\)</span></li>
+<li class="fragment"><strong>d</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>d</strong>ensity (PDF), <em>i.e.</em> <span class="math inline">\(f_X(x)\)</span></li>
+<li class="fragment"><strong>p</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>p</strong>robability distribution cumulative function (CDF), <em>i.e.</em> <span class="math inline">\(F_X(x) =\boldsymbol{P}(X \leq x)\)</span></li>
 <li class="fragment"><strong>q</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>q</strong>uantile function, <em>i.e.</em> return <span class="math inline">\(x\)</span> such that <span class="math inline">\(\boldsymbol{P}(X \leq x) = p\)</span></li>
 <li class="fragment"><strong>r</strong><em>&lt;distribution-name&gt;</em> <span class="math inline">\(:=\)</span> <strong>r</strong>andom deviates, <em>i.e.</em> (<em>psuedo</em>) random number generator for a given distribution</li>
 <li class="fragment"><em>Where &lt;distribution-name&gt;</em> <span class="math inline">\(=\)</span> Normal, uniform, lognormal, Student’s t, Poisson, binormal, Weibull … see <code class="sourceCode r">?<span class="kw">distributions</span>()</code> for more information</li>
@@ -703,7 +703,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </tr>
 <tr class="even">
 <td><code class="sourceCode r"><span class="kw">dbinom</span>(<span class="dv">4</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">prob=</span><span class="fl">0.5</span>)</code></td>
-<td>Computes <span class="math inline">\(\boldsymbol{P}(X = 4)\)</span> where <span class="math inline">\(X \sim \mathcal{B}(5,\,0.5)\)</span></td>
+<td>Computes <span class="math inline">\(\boldsymbol{P}(X = 4)\)</span> where <span class="math inline">\(X \sim \mathcal{Bin}(5,\,0.5)\)</span></td>
 </tr>
 <tr class="odd">
 <td><code class="sourceCode r"><span class="kw">pgamma</span>(<span class="fl">0.2</span>, <span class="dt">shape=</span><span class="dv">2</span>, <span class="dt">rate=</span><span class="dv">2</span>)</code><br><span class="footnote">*See footnote</span></td>
