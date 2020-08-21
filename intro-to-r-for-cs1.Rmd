@@ -1,0 +1,376 @@
+---
+title: "Introduction to R via CS1"
+author: "Alex Garbiak"
+date: "`r format (Sys.time(), '%d %B, %Y')`"
+output: 
+  revealjs::revealjs_presentation:
+    template: "intro-to-r-for-cs1_files/libs/modded-revealjs.html"
+    css: "intro-to-r-for-cs1_files/libs/style.css"
+    theme: white
+    highlight: pygments
+    center: false
+    incremental: true
+    self_contained: false
+    reveal_plugins: ["menu"]
+    reveal_options:
+      menu:
+        markers: true
+    includes:
+      in_header: "intro-to-r-for-cs1_files/libs/favicon.html"
+    
+---
+
+```{r setup, include=FALSE}
+library(fontawesome) # For logos
+```
+
+# Why are we here? {data-background="intro-to-r-for-cs1_files/assets/abstract.jpg" .white .center}
+
+- To pass the `CS1` *(Part B)* exam `r emo::ji("thumbs up")`
+- To be persuaded that `R` is great for actuarial work `r emo::ji("eyes")` ... maybe next time.
+
+# The Basics `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/coding.jpg" .white .center}
+<span class="footnote">Yes ... it's `HTML`, not `R``r emo::ji("smirking face")`</span>
+
+## Background `r emo::ji("books")`
+
+This presentation is to help [IFoA](https://www.actuaries.org.uk/) actuaries tackle **Part B** of the **CS1** exam.
+
+- Some **prerequisites**:
+  - Understand the **CS1** [Actuarial Statistics](https://www.actuaries.org.uk/studying/curriculum/actuarial-statistics) material 
+  - Install [`R`](https://cran.rstudio.com/)
+  - Install [RStudio](https://rstudio.com/products/rstudio/download/#download)
+
+## RStudio layout `r emo::ji("globe showing Europe-Africa")`
+
+![RStudio layout discussion](intro-to-r-for-cs1_files/assets/rstudio-layout.png)
+
+## R loves vectors `r emo::ji("red heart")`
+
+R prefers **vectorised operations** (*over concepts like for loops*)
+
+```{r vector-intro}
+# This is the syntax for comments in R
+(1:10) + 2 # Notice how we add element-wise in R
+```
+
+## R also loves variables `r emo::ji("heart with arrow")` { .leftAligned }
+
+We **assign** values to **variables** using the `<-` *("assignment")* operator
+
+```{r vector-variable, collapse=TRUE}
+x <- 1:10
+y <- x + 2
+x <- x + x # Notice that we can re-assign values to variables
+z <- x + 2
+y
+z
+```
+
+Even though `z` is assigned the same way as we assigned `y`, `y` does not equal `z`, execution order matters in `R`!
+
+## Add power with functions `r emo::ji("rocket")`
+
+We now add **functions** to the `R` code:
+
+```{r vector2}
+x <- c(1, 1, 2, 3, 5)
+y <- x + 2
+z <- sample(y)
+z
+```
+
+## Matrices `r emo::ji("classical building")`
+
+Let's create a **matrix** in `R`
+
+*Note:* **Matrix multiplication** requires the `%*%` syntax
+
+```{r matrix1}
+first_matrix <- matrix(1:9, byrow = TRUE, nrow = 3)
+first_matrix %*% first_matrix
+```
+
+## Dataframes `r emo::ji("factory")` { .leftAligned }
+
+A `data.frame` is a very popular data structure used in `R`. Each input variable has to have the same length but can be of different types (*string, integers, booleans, etc.*).
+
+```{r dataframes}
+# Input vectors for the data.frame
+name <- c("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+surface_gravity <- c(0.38, 0.904, 1, 0.3794, 2.528, 1.065, 0.886, 1.14)
+
+# Create a data.frame from the vectors
+solar_system <- data.frame(name, surface_gravity)
+str(solar_system)
+```
+
+## Logical expressions `r emo::ji("alembic")`
+
+R has built in logic expressions:
+
+| Operator | Description |
+|-|-|
+| < (<=) | less than (or equal to) |
+| > (>=) | greater than (or equal to) |
+| == | exactly equal to |
+| ! | NOT |
+| & | AND (*element-wise*) |
+| \| | OR (*element-wise*) |
+| != | not equal to |
+
+## Filtering and Subsetting `r emo::ji("microscope")` { .leftAligned }
+
+We can use logical expressions to effectively filter data
+
+Here we **subset** the data using the `[...]`{.R} syntax
+```{r subsetting}
+x <- 1:10
+x[x != 5 & x < 7]
+```
+
+## Expand R with packages `r emo::ji("package")` { .leftAligned }
+
+We can extend `R`'s functionality by loading **packages**:
+
+```{r packages}
+# Load the ggplot2 package
+library(ggplot2)
+```
+
+- Did you get an error from `R` trying this?
+- To load packages they need to be **installed** first:
+- `install.package("ggplot2")`{.R}
+
+## Importing data `r emo::ji("page with curl")` { .leftAligned }
+
+We'll focus on exam likely candidates with `.csv` and `.RData` file imports
+
+```{r import-data}
+# Import csv files with read.csv() function:
+csv_data <- 
+  read.csv("intro-to-r-for-cs1_files/data/USTreasury_1YR.csv")
+
+# For RData files, we use the load() function:
+load("intro-to-r-for-cs1_files/data/USTreasury_10YR.RData")
+```
+
+## Random Variables `r emo::ji("slot machine")`
+
+`R` was designed to be used for statistical computing - so it handles **randomness** well!
+
+```{r random-variables}
+set.seed(42) # Fixes result
+die_throws <- sample(1:6, 10000, replace = TRUE)
+mean(die_throws)
+```
+
+## Probability Distributions `r emo::ji("slot machine")`
+
+- `R` has a number of in-built functions for probability distributions
+  - **d***\<distribution-name\>* $:=$ **d**ensity, *i.e.* $\boldsymbol{P}(X>x)$
+  - **p***\<distribution-name\>* $:=$ **p**robability distribution function, *i.e.* $\boldsymbol{P}(X \leq x)$
+  - **q***\<distribution-name\>* $:=$ **q**uantile function, *i.e.* return $x$ such that $\boldsymbol{P}(X \leq x) = p$
+  - **r***\<distribution-name\>* $:=$ **r**andom deviates, *i.e.* (*psuedo*) random number generator for a given distribution
+  - *Where \<distribution-name\>* $=$ Normal, uniform, lognormal, Student's t, Poisson, binormal, Weibull ... see `?distributions()`{.R} for more information
+
+## Probability Distributions Examples `r emo::ji("slot machine")`
+
+| R Code | Definition |
+|-|-|
+| `rnorm(1)`{.R} | Generates $x_1$ where $X \sim \mathcal{N}(0,\,1)$ |
+| `rnorm(y, mean=10, sd=2)`{.R} | Generates $\{y_1,\,y_2,\,\dots\}$ with $Y \sim \mathcal{N}(10,\,2^2)$ |
+| `runif(3, min=5, max=10)`{.R} | Generates $\{z_1,\,z_2,\,z_3\}$  where $Z \sim \mathcal{U}(5,\,10)$ |
+| `dbinom(4, size=5, prob=0.5)`{.R} | Computes $\boldsymbol{P}(X = 4)$ where $X \sim \mathcal{B}(5,\,0.5)$ |
+| `pgamma(0.2, shape=2, rate=2)`{.R}<br><span class="footnote">*See footnote</span> | Computes $F_Y(0.2)$ where $Y \sim \mathcal{\Gamma}(2,\,2)$, i.e.  $\boldsymbol{P}(Y\leq 0.2)$|
+| `qexp(0.5, rate = 2)`{.R} | Determines smallest value of $z$ for $\boldsymbol{P}(Z \leq z) = 0.5$ where $Z \sim Exp(2)$ |
+
+<span class="footnote">\*This is how the $\Gamma$ distribution is parametrised in "*FORMULAE AND TABLES for EXAMINATIONS of THE INSTITUTE and FACULTY OF ACTUARIES*"</span>
+
+# Data Analysis `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/lagoon-nebula.jpg"}
+
+## Exploratory Data Analysis `r emo::ji("microscope")`
+
+`R` is great for calculating "*suitable summary statistics*"
+
+```{r summary-stats}
+x <- sample(1:100, 10)
+summary(x)
+sqrt(var(x))
+```
+
+## Calculating correlations `r emo::ji("notebook")`
+
+Let's calculate the "*Pearson’s, Spearman’s and Kendall’s measures of correlation for bivariate data*"
+
+# Statistical inference `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/stats.jpg" .center}
+
+## Confidence intervals `r emo::ji("telescope")` { .leftAligned }
+
+Let's calculate confidence intervals for "*the mean and the variance of a normal distribution*" and "*a binomial probability and a Poisson mean*"
+
+## Bootstrap method `r emo::ji("rocket")` { .leftAligned }
+
+Let's use the bootstrap method to "*estimate properties of an estimator*" and "*obtain confidence intervals*".
+
+## Simple linear regression `r emo::ji("satellite")` { .leftAligned }
+
+Let's "*fit a simple linear regression model to a data set*"
+
+## Multiple linear regression `r emo::ji("satellite")` { .leftAligned }
+
+Let's expand this and "*fit a multiple linear regression model to a data set*"
+
+## Generalised linear models `r emo::ji("milky way")` { .leftAligned }
+
+We also need to be able to "*fit a generalised linear model to a data set*":
+
+# Plotting `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/nebula.png"}
+
+## Base plotting `r emo::ji("chart decreasing")` 	
+
+We need to be able to "... *undertake exploratory data visualizations*"
+
+```{r base-plot}
+# Bar chart
+```
+
+## More plots `r emo::ji("chart decreasing")` 
+
+```{r plot-hist}
+# Histogram
+```
+
+## QQ plots `r emo::ji("chart decreasing")` 
+
+```{r plot-qq}
+# qqplot example
+```
+
+## Plots looks nicer with ggplot2 `r emo::ji("chart increasing")`
+
+```{r ggplot}
+library(ggplot2)
+```
+
+# CS1 Actuarial Examples {data-background="intro-to-r-for-cs1_files/assets/galaxy.jpg"}
+
+## CS1 Question 1 `r emo::ji("notebook with decorative cover")` { .leftAligned }
+
+- *Given $X \sim \mathcal{N}(\mu,\,\sigma^{2})$,*
+
+(i) *Estimate $\mathbb{E}[X]$*
+
+(ii) *Calculate a 95% confidence interval ("CI") for $\mathbb{E}[X]$*
+
+(iii) *Calculate a 95% CI for $\mathbb{E}[X]$ using a bootstrap method with a sample size of 10,000*
+
+## CS1 Question 1: Answer (Part 1) `r emo::ji("book")`  { .leftAligned }
+
+```{r q1-answer-part1}
+# We have X equal to:
+x <- 
+  c(0.20, 0.40, 1.20, 0.55, 0.75, 
+    1.10, 0.50, 0.70, 0.55, 0.60, 
+    0.65, 0.55, 0.50, 0.50, 0.45, 
+    0.65, 0.55, 0.30, 0.50, 0.45
+    )
+
+# 1. Expected value of X is:
+mean(x)
+```
+
+## CS1 Question 1: Answer (Part 2) `r emo::ji("book")`  { .leftAligned }
+
+Given $X \sim \mathcal{N}(\mu,\,\sigma^{2})$ with unknown population variance, a 95% CI for $\mathbb{E}[X]$ is:
+
+```{r q1-answer-part2}
+confidence_level <- 0.95
+confidence_interval <- 
+  c(
+    (1 - confidence_level)/2,
+    1 - (1 - confidence_level)/2
+    )
+degrees_freedom <- length(x) - 1
+critical_value <- qt(confidence_interval, degrees_freedom)
+mu <- mean(x)
+sigma <- sqrt(var(x))
+
+c(
+  mu - abs(critical_value[1]) * sigma / sqrt(length(x)),
+  mu + abs(critical_value[1]) * sigma / sqrt(length(x))
+)
+```
+
+## CS1 Question 1: Answer (Part 3) `r emo::ji("book")`  { .leftAligned }
+
+We can also calculate a 95% CI for $\mathbb{E}[X]$ using a bootstrap method:
+
+```{r q1-answer-part3}
+set.seed(42)
+sample_size <- 10000
+confidence_level <- 0.95
+confidence_interval <- 
+  c(
+    (1 - confidence_level)/2,
+    1 - (1 - confidence_level)/2
+  )
+x_bootstrapped <- 
+  replicate(sample_size,
+            mean(sample(x, replace = TRUE))
+            )
+quantile(x_bootstrapped, probs = confidence_interval)
+```
+
+## CS1 Question 2 `r emo::ji("notebook with decorative cover")`  { .leftAligned }
+
+Another example
+
+## CS1 Question 2: Answer `r emo::ji("book")`  { .leftAligned }
+
+```{r q2-answer}
+#TO DO
+```
+
+## CS1  Question 3 `r emo::ji("notebook with decorative cover")`  { .leftAligned }
+
+Fit a GLM analysis to the given data using a Poisson distribution
+
+
+## CS1 Question 3: Answer `r emo::ji("book")`  { .leftAligned }
+
+```{r q3-answer}
+#TO DO
+```
+
+# Final remarks {data-background="intro-to-r-for-cs1_files/assets/starry-night.jpg"}
+
+## Where to get more help `r emo::ji("SOS button")`
+
+- Some recommendations:
+  - RStudio:
+    - Tutorials via `library(learnr)`{.R} package
+    - Built-in cheat sheets
+    - Package documentation
+  - DataCamp's free course: [Introduction to R](https://www.datacamp.com/courses/free-introduction-to-r)
+  - IFoA's [guide](https://www.actuaries.org.uk/system/files/field/document/R-Guide_technical.pdf) on "*get up and running with R*"
+  
+## Why not use Python? `r fa("python", fill = "green")`  {.center}
+
+- Sure, go for it!
+- Use the right tool(s) for *your* problem\*
+- \*Aspire to Jeff Bezos' [Regret Minimization Framework](https://www.youtube.com/watch?v=jwG_qR6XmDQ)
+
+## What next? `r emo::ji("next track button")`
+
+- R is incredibly powerful: this presentation was built with R\*, consider:
+  - Using the `library(tidyverse)`{.R} suite of packages: enhancing your experience with `R`
+  - Writing `R` code within a `RMarkdown` (*.Rmd*) file: good for report writing
+  - Integrating `R` with `Git`: use the **Terminal** to interact with a remote repo from the command line
+  - Creating interactive applications in `R` using `Shiny`
+
+<span class="footnote">*With heavy assistance from <code>reveal.js</code> and in hindsight I should have used the right tool for the right job ... maybe next time `r emo::ji("smirking face")`</span>
+
+# The End {data-background="intro-to-r-for-cs1_files/assets/blackhole.png" .white .leftAligned .center}
+
+Click [here](https://github.com/alexgarbiak/presentations/archive/intro-to-r-for-cs1.zip) to download
