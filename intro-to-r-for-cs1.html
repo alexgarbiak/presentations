@@ -566,7 +566,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Another function with arguments:</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>y &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">size =</span> <span class="dv">3</span>)</span>
 <span id="cb4-5"><a href="#cb4-5"></a>y</span></code></pre></div>
-<pre><code>## [1] 39  7 16</code></pre>
+<pre><code>## [1] 37 42 36</code></pre>
 </section><section id="matrices" class="slide level2">
 <h2>Matrices 🏛</h2>
 <p>Let’s create a <strong>matrix</strong> in <span class="math inline">\(R\)</span></p>
@@ -947,30 +947,66 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="cs1-question-2" class="slide level2 leftAligned">
 <h2>CS1 Question 2 📔</h2>
 <ul>
-<li class="fragment"><em>Given the dataset “abc”</em>:</li>
+<li class="fragment"><em>Given the dataset “house_data.csv” (given below)</em>:</li>
 </ul>
 <ol type="1">
-<li class="fragment"><p><em>Fit a generalised linear model to the dataset using a Poisson distribution</em></p></li>
+<li class="fragment"><p><em>Fit a generalised linear model to predict house prices using a Gamma distribution</em></p></li>
 <li class="fragment"><p><em>State the formula of the model fitted</em></p></li>
 <li class="fragment"><p><em>Review the model fit</em></p></li>
 </ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>house_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;intro-to-r-for-cs1_files/data/house_data.csv&quot;</span>)</span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="kw">head</span>(house_data[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">8</span><span class="op">:</span><span class="dv">11</span>)]) <span class="co"># Glimpse of data set</span></span></code></pre></div>
+<pre><code>##   Region YearBuilt RoofType HouseSize Bathrooms Bedrooms
+## 1      5      2003        1      1710       3.5        3
+## 2      5      2002        1      1786       3.5        3
+## 3      1      1965        2      1040       2.0        3
+## 4      1      1962        2       912       2.0        2
+## 5      6      1960        2      1253       2.5        2
+## 6      6      1970        1      1004       2.0        2</code></pre>
 </section><section id="cs1-question-2-answer-part-1" class="slide level2 leftAligned">
 <h2>CS1 Question 2: Answer (Part 1) 📖</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co">#TO DO</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a><span class="co"># glm_model &lt;- glm(</span></span>
-<span id="cb42-3"><a href="#cb42-3"></a><span class="co">#   y ~ x1 + x2,</span></span>
-<span id="cb42-4"><a href="#cb42-4"></a><span class="co">#   family = Gamma(link = inverse),</span></span>
-<span id="cb42-5"><a href="#cb42-5"></a><span class="co">#   data = data_set</span></span>
-<span id="cb42-6"><a href="#cb42-6"></a><span class="co"># )</span></span></code></pre></div>
+<p>Let’s build a GLM with response variables “<em>YearBuilt</em>”, “<em>HouseSize</em>” and “<em>RoofType</em>”:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>glm_model &lt;-<span class="st"> </span><span class="kw">glm</span>(</span>
+<span id="cb44-2"><a href="#cb44-2"></a>  Price <span class="op">~</span><span class="st"> </span>YearBuilt <span class="op">+</span><span class="st"> </span>HouseSize <span class="op">+</span><span class="st"> </span>RoofType,</span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="dt">family =</span> <span class="kw">Gamma</span>(<span class="dt">link =</span> <span class="st">&quot;inverse&quot;</span>),</span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="dt">data =</span> house_data</span>
+<span id="cb44-5"><a href="#cb44-5"></a>)</span></code></pre></div>
 </section><section id="cs1-question-2-answer-part-2" class="slide level2 leftAligned">
 <h2>CS1 Question 2: Answer (Part 2) 📖</h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#TO DO</span></span>
-<span id="cb43-2"><a href="#cb43-2"></a><span class="co">#coef(glm_model)</span></span></code></pre></div>
-<p>Therefore <span class="math inline">\(y = 2.1 + 3.2x_1 + 0.4x_2\)</span> where <span class="math inline">\(x_1\)</span> is the “abc” variable and <span class="math inline">\(x_2\)</span> is the “def” variable</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">coef</span>(glm_model)</span></code></pre></div>
+<pre><code>##   (Intercept)     YearBuilt     HouseSize      RoofType 
+##  7.829688e-05 -3.492117e-08 -2.006639e-09  6.302872e-09</code></pre>
+<p>We have fit a model with <span class="math inline">\(\bar{\nu} = \frac{1}{\mu} =\)</span> 12,772 <span class="math inline">\(-\)</span> 28,635,925<span class="math inline">\(x_1 \,-\)</span> 498,345,682<span class="math inline">\(x_2 \,+\)</span> 158,657,830<span class="math inline">\(x_3\)</span></p>
+<p>where <span class="math inline">\(\bar{\nu}\)</span> is the predicted variable <em>“Price”</em> and <span class="math inline">\(x_1,\, x_2,\, x_3\)</span> are the <em>“YearBuilt”</em>, <em>“HouseSize”</em> and <em>“RoofType”</em> variables respectively.</p>
 </section><section id="cs1-question-2-answer-part-3" class="slide level2 leftAligned">
 <h2>CS1 Question 2: Answer (Part 3) 📖</h2>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co">#TO DO</span></span>
-<span id="cb44-2"><a href="#cb44-2"></a><span class="co">#summary(glm_model)</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw">summary</span>(glm_model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Price ~ YearBuilt + HouseSize + RoofType, family = Gamma(link = &quot;inverse&quot;), 
+##     data = house_data)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -0.74826  -0.09318   0.01491   0.10941   0.66029  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  7.830e-05  5.274e-06  14.845   &lt;2e-16 ***
+## YearBuilt   -3.492e-08  2.667e-09 -13.094   &lt;2e-16 ***
+## HouseSize   -2.007e-09  8.738e-11 -22.965   &lt;2e-16 ***
+## RoofType     6.303e-09  8.191e-09   0.769    0.442    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Gamma family taken to be 0.0325146)
+## 
+##     Null deviance: 41.050  on 501  degrees of freedom
+## Residual deviance: 17.681  on 498  degrees of freedom
+## AIC: 11778
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p><em>“YearBuilt”</em> and <em>“HouseSize”</em> parameters are significant at the 0.1% level</p>
 </section></section>
 <section><section id="final-remarks" class="title-slide slide level1" data-background="intro-to-r-for-cs1_files/assets/starry-night.jpg"><h1>Final remarks</h1></section><section id="where-to-get-more-help" class="slide level2">
 <h2>Where to get more help 🆘</h2>
