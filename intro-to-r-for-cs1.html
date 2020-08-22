@@ -557,15 +557,16 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb3-6"><a href="#cb3-6"></a><span class="co">##  [1]  3  4  5  6  7  8  9 10 11 12</span></span>
 <span id="cb3-7"><a href="#cb3-7"></a>z</span>
 <span id="cb3-8"><a href="#cb3-8"></a><span class="co">##  [1]  4  6  8 10 12 14 16 18 20 22</span></span></code></pre></div>
-<p>Even though <span class="math inline">\(z\)</span> is assigned the same way as we assigned <span class="math inline">\(y\)</span>, note that <span class="math inline">\(y \neq z \implies\)</span> execution order matters in <span class="math inline">\(R\)</span></p>
+<p>Even though <span class="math inline">\(z\)</span> is assigned the same way as we assigned <span class="math inline">\(y\)</span>, note that <span class="math inline">\(y \neq z\)</span> so execution order matters in <span class="math inline">\(R\)</span></p>
 </section><section id="add-power-with-functions" class="slide level2">
 <h2>Add power with functions 🚀</h2>
-<p>We now add <strong>functions</strong> to the <span class="math inline">\(R\)</span> code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>z &lt;-<span class="st"> </span><span class="kw">sample</span>(y)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>z</span></code></pre></div>
-<pre><code>## [1] 5 3 3 7 4</code></pre>
+<p>We now add <strong>functions</strong> to the <span class="math inline">\(R\)</span> code which has the form <code class="sourceCode r"><span class="kw">function_name</span>(<span class="dt">arguments =</span> <span class="st">&quot;values&quot;</span>, ...)</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Combine function, used often to create vectors:</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">6</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">21</span><span class="op">:</span><span class="dv">42</span>) </span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Another function with arguments:</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>y &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">size =</span> <span class="dv">3</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a>y</span></code></pre></div>
+<pre><code>## [1] 39  7 16</code></pre>
 </section><section id="matrices" class="slide level2">
 <h2>Matrices 🏛</h2>
 <p>Let’s create a <strong>matrix</strong> in <span class="math inline">\(R\)</span></p>
@@ -652,7 +653,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li class="fragment">Did you get an error from <span class="math inline">\(R\)</span> trying this?</li>
 <li class="fragment">To load packages they need to be <strong>installed</strong> first:</li>
-<li class="fragment"><code class="sourceCode r"><span class="kw">install.package</span>(<span class="st">&quot;ggplot2&quot;</span>)</code></li>
+<li class="fragment"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</code></li>
 </ul>
 </section><section id="importing-data" class="slide level2 leftAligned">
 <h2>Importing data 📃</h2>
@@ -775,7 +776,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <pre><code>## [1] 0.8359784 1.4634191</code></pre>
 </section><section id="simple-linear-regression" class="slide level2 leftAligned">
 <h2>Simple linear regression 📡</h2>
-<p>Let’s “<em>fit a simple linear regression model to a data set</em>” using the <code class="sourceCode r"><span class="kw">lm</span>(formula)</code> function and the symbolic syntax <code class="sourceCode r">response <span class="op">~</span><span class="st"> </span>terms</code></p>
+<p>Let’s “<em>fit a simple linear regression model to a data set</em>” using the <code class="sourceCode r"><span class="kw">lm</span>(formula)</code> function and the symbolic syntax <code class="sourceCode r">predicted <span class="op">~</span><span class="st"> </span><span class="kw">explanatory</span>(s)</code></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Note: &quot;women&quot; is a built-in dataset in R</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a>simple_linear_model &lt;-<span class="st"> </span><span class="kw">lm</span>(weight <span class="op">~</span><span class="st"> </span>height, <span class="dt">data =</span> women)</span>
 <span id="cb28-3"><a href="#cb28-3"></a><span class="kw">summary</span>(simple_linear_model)<span class="op">$</span>coefficients</span></code></pre></div>
@@ -787,7 +788,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="multiple-linear-regression" class="slide level2 leftAligned">
 <h2>Multiple linear regression 🚀</h2>
 <p>Let’s expand this and “<em>fit a multiple linear regression model to a data set</em>” using the <code class="sourceCode r"><span class="kw">lm</span>()</code> function again, a <code>data.frame</code> as our data and the symbolic notation:</p>
-<p><span class="math inline">\(y = \alpha + \beta_1X_1 + \beta_2X_2 + \,_{\dots}\, + \beta_nX_n\)</span></p>
+<p><span class="math inline">\(\hat{Y} = \beta_0 + \beta_1X_1 + \beta_2X_2 + \,_{\dots}\, + \beta_nX_n\)</span></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># NOT EVALUATED</span></span>
 <span id="cb30-2"><a href="#cb30-2"></a>better_model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3, <span class="dt">data =</span> data_set)</span>
 <span id="cb30-3"><a href="#cb30-3"></a><span class="kw">summary</span>(multiple_linear_model) <span class="co"># Provides full results of the lm</span></span>
@@ -800,8 +801,18 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb30-10"><a href="#cb30-10"></a><span class="kw">anova</span>(better_model, new_model)</span></code></pre></div>
 </section><section id="generalised-linear-models" class="slide level2 leftAligned">
 <h2>Generalised linear models 🌌</h2>
-<p>We also need to be able to “<em>fit a generalised linear model to a data set</em>”. Here we use the <code class="sourceCode r"><span class="kw">glm</span>()</code> function</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># NOT EVALUATED</span></span></code></pre></div>
+<p>To “<em>fit a generalised linear model to a data set</em>” in <span class="math inline">\(R\)</span> we make use of the <code class="sourceCode r"><span class="kw">glm</span>()</code> function. Here we generalise:</p>
+<ul>
+<li class="fragment">Predicted variable <span class="math inline">\(Y\)</span> follows a exponential <strong>family</strong> distribution</li>
+<li class="fragment">Explanatory variables form a <strong>linear predictor</strong> <span class="math inline">\(\beta_0 + \beta_1X_1, \, \beta_2X_2, \, \dots, \, \beta_nX_n\)</span></li>
+<li class="fragment">We link <span class="math inline">\(Y\)</span> and the linear predictor using a <strong>link function</strong></li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># NOT EVALUATED</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>glm_model &lt;-<span class="st"> </span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="st">  </span><span class="kw">glm</span>(<span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3</span>
+<span id="cb31-4"><a href="#cb31-4"></a>      <span class="dt">family =</span> <span class="kw">Gamma</span>(<span class="dt">link =</span> <span class="st">&quot;inverse&quot;</span>), </span>
+<span id="cb31-5"><a href="#cb31-5"></a>      <span class="dt">data =</span> data_set</span>
+<span id="cb31-6"><a href="#cb31-6"></a>      )</span></code></pre></div>
 </section></section>
 <section><section id="plotting" class="title-slide slide level1" data-background="intro-to-r-for-cs1_files/assets/nebula.png"><h1>Plotting <svg style="height:0.8em;top:.04em;position:relative;fill:steelblue;" viewBox="0 0 581 512"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg></h1></section><section id="base-plotting" class="slide level2 leftAligned">
 <h2>Base plotting 📉</h2>
@@ -834,22 +845,52 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="producing-historgrams" class="slide level2">
 <h2>Producing historgrams 📉</h2>
 <p>Histograms can be generated using the <code class="sourceCode r"><span class="kw">hist</span>()</code> function:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># Histogram</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">set.seed</span>(<span class="dv">42</span>) <span class="co"># Fix the result</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a></span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="co"># Histogram of random draws from the t-distribution</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a><span class="kw">hist</span>(<span class="kw">rt</span>(<span class="dv">1000</span>, <span class="dt">df =</span> <span class="dv">10</span>), </span>
+<span id="cb34-5"><a href="#cb34-5"></a>     <span class="co"># Use breaks argument to (optionally) control the binning</span></span>
+<span id="cb34-6"><a href="#cb34-6"></a>     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from=</span><span class="op">-</span><span class="dv">5</span>, <span class="dt">to=</span><span class="dv">5</span>, <span class="dt">by=</span><span class="fl">0.5</span>),</span>
+<span id="cb34-7"><a href="#cb34-7"></a>     <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">173</span>,<span class="dv">216</span>,<span class="dv">230</span>,<span class="dv">80</span>, <span class="dt">max =</span> <span class="dv">255</span>), <span class="co"># Colour</span></span>
+<span id="cb34-8"><a href="#cb34-8"></a>     <span class="dt">main =</span> <span class="st">&quot;Histogram of random draws from t-distribution&quot;</span>,</span>
+<span id="cb34-9"><a href="#cb34-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Value&quot;</span></span>
+<span id="cb34-10"><a href="#cb34-10"></a>     )</span>
+<span id="cb34-11"><a href="#cb34-11"></a></span>
+<span id="cb34-12"><a href="#cb34-12"></a><span class="co"># Add second histogram</span></span>
+<span id="cb34-13"><a href="#cb34-13"></a>y &lt;-<span class="st"> </span><span class="kw">rt</span>(<span class="dv">1000</span>, <span class="dt">df =</span> <span class="dv">20</span>)</span>
+<span id="cb34-14"><a href="#cb34-14"></a><span class="kw">hist</span>(y, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">255</span>,<span class="dv">192</span>,<span class="dv">203</span>,<span class="dv">80</span>, <span class="dt">max =</span> <span class="dv">255</span>), <span class="dt">breaks =</span> <span class="dv">21</span>,</span>
+<span id="cb34-15"><a href="#cb34-15"></a>     <span class="dt">add =</span> <span class="ot">TRUE</span>) <span class="co"># Add onto existing plot</span></span></code></pre></div>
 </section><section id="histogram" class="slide level2">
 <h2>Histogram 📉</h2>
-</section><section id="plotting-with-ggplot2" class="slide level2">
+<p><img src="intro-to-r-for-cs1_files/figure-revealjs/plot-histogram-1.png" width="768" /></p>
+</section><section id="plotting-with-ggplot2" class="slide level2 leftAligned">
 <h2>Plotting with ggplot2 📈</h2>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<p>Plot with <code class="sourceCode r"><span class="kw">ggplot</span>()</code> in <code class="sourceCode r"><span class="kw">libary</span>(ggplot2)</code>, defining your aesthetics with <code class="sourceCode r"><span class="kw">aes</span>()</code> and the type of chart with the <code class="sourceCode r"><span class="kw">geom_</span>()</code> functions and you might become a <a href="https://bbc.github.io/rcookbook/">data journalist</a></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># Join datasets together: csv_data (treating Date format) and USTreasury_10YR</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>yield_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">DATE =</span> <span class="kw">as.Date</span>(csv_data<span class="op">$</span>DATE), <span class="dt">yield_rate =</span> csv_data<span class="op">$</span>WGS1YR, <span class="dt">term =</span> <span class="st">&quot;1 year&quot;</span>)</span>
+<span id="cb35-3"><a href="#cb35-3"></a>yield_data &lt;-<span class="st"> </span><span class="kw">rbind</span>(yield_data, </span>
+<span id="cb35-4"><a href="#cb35-4"></a>                    <span class="kw">data.frame</span>(<span class="dt">DATE =</span> USTreasury_10YR<span class="op">$</span>DATE, <span class="dt">yield_rate =</span> USTreasury_10YR<span class="op">$</span>WGS10YR, <span class="dt">term =</span> <span class="st">&quot;10 year&quot;</span>))</span>
+<span id="cb35-5"><a href="#cb35-5"></a></span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb35-7"><a href="#cb35-7"></a>caption &lt;-<span class="st"> &quot;Source: Board of Governors of the Federal Reserve System (US)&quot;</span></span>
+<span id="cb35-8"><a href="#cb35-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(yield_data, </span>
+<span id="cb35-9"><a href="#cb35-9"></a>            <span class="kw">aes</span>(<span class="dt">x =</span> DATE, <span class="dt">y =</span> yield_rate, <span class="dt">colour =</span> term)</span>
+<span id="cb35-10"><a href="#cb35-10"></a>            ) <span class="op">+</span></span>
+<span id="cb35-11"><a href="#cb35-11"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb35-12"><a href="#cb35-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;Term&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Percent&quot;</span>,<span class="dt">caption =</span> caption) <span class="op">+</span></span>
+<span id="cb35-13"><a href="#cb35-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;1-Year and 10-Year Treasury Yield Curve Rates&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb35-14"><a href="#cb35-14"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
 </section><section id="ggplot2-plot" class="slide level2">
 <h2>ggplot2 Plot 📈</h2>
+<p><img src="intro-to-r-for-cs1_files/figure-revealjs/ggplot-1.png" width="768" /></p>
 </section></section>
 <section><section id="cs1-actuarial-examples" class="title-slide slide level1" data-background="intro-to-r-for-cs1_files/assets/galaxy.jpg"><h1>CS1 Actuarial Examples</h1></section><section id="cs1-question-1" class="slide level2 leftAligned">
 <h2>CS1 Question 1 📔</h2>
 <ul>
-<li class="fragment"><em>Given <span class="math inline">\(X \sim \mathcal{N}(\mu,\,\sigma^{2})\)</span>,</em></li>
+<li class="fragment"><em>Given a sample from <span class="math inline">\(X \sim \mathcal{N}(\mu,\,\sigma^{2})\)</span>,</em></li>
 </ul>
-<ol type="i">
-<li class="fragment"><p><em>Estimate <span class="math inline">\(\mathbb{E}[X]\)</span></em></p></li>
+<ol type="1">
+<li class="fragment"><p><em>Calculate the sample mean, <span class="math inline">\(\bar{x}\)</span></em></p></li>
 <li class="fragment"><p><em>Calculate a 95% confidence interval (“CI”) for <span class="math inline">\(\mathbb{E}[X]\)</span></em></p></li>
 <li class="fragment"><p><em>Calculate a 95% CI for <span class="math inline">\(\mathbb{E}[X]\)</span> using a bootstrap method with a sample size of 10,000</em></p></li>
 </ol>
@@ -905,16 +946,31 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ##  0.49  0.69</code></pre>
 </section><section id="cs1-question-2" class="slide level2 leftAligned">
 <h2>CS1 Question 2 📔</h2>
-<p>Another example</p>
-</section><section id="cs1-question-2-answer" class="slide level2 leftAligned">
-<h2>CS1 Question 2: Answer 📖</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co">#TO DO</span></span></code></pre></div>
-</section><section id="cs1-question-3" class="slide level2 leftAligned">
-<h2>CS1 Question 3 📔</h2>
-<p>Fit a GLM analysis to the given data using a Poisson distribution</p>
-</section><section id="cs1-question-3-answer" class="slide level2 leftAligned">
-<h2>CS1 Question 3: Answer 📖</h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#TO DO</span></span></code></pre></div>
+<ul>
+<li class="fragment"><em>Given the dataset “abc”</em>:</li>
+</ul>
+<ol type="1">
+<li class="fragment"><p><em>Fit a generalised linear model to the dataset using a Poisson distribution</em></p></li>
+<li class="fragment"><p><em>State the formula of the model fitted</em></p></li>
+<li class="fragment"><p><em>Review the model fit</em></p></li>
+</ol>
+</section><section id="cs1-question-2-answer-part-1" class="slide level2 leftAligned">
+<h2>CS1 Question 2: Answer (Part 1) 📖</h2>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co">#TO DO</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="co"># glm_model &lt;- glm(</span></span>
+<span id="cb42-3"><a href="#cb42-3"></a><span class="co">#   y ~ x1 + x2,</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a><span class="co">#   family = Gamma(link = inverse),</span></span>
+<span id="cb42-5"><a href="#cb42-5"></a><span class="co">#   data = data_set</span></span>
+<span id="cb42-6"><a href="#cb42-6"></a><span class="co"># )</span></span></code></pre></div>
+</section><section id="cs1-question-2-answer-part-2" class="slide level2 leftAligned">
+<h2>CS1 Question 2: Answer (Part 2) 📖</h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#TO DO</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="co">#coef(glm_model)</span></span></code></pre></div>
+<p>Therefore <span class="math inline">\(y = 2.1 + 3.2x_1 + 0.4x_2\)</span> where <span class="math inline">\(x_1\)</span> is the “abc” variable and <span class="math inline">\(x_2\)</span> is the “def” variable</p>
+</section><section id="cs1-question-2-answer-part-3" class="slide level2 leftAligned">
+<h2>CS1 Question 2: Answer (Part 3) 📖</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co">#TO DO</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="co">#summary(glm_model)</span></span></code></pre></div>
 </section></section>
 <section><section id="final-remarks" class="title-slide slide level1" data-background="intro-to-r-for-cs1_files/assets/starry-night.jpg"><h1>Final remarks</h1></section><section id="where-to-get-more-help" class="slide level2">
 <h2>Where to get more help 🆘</h2>
@@ -923,8 +979,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li class="fragment">RStudio:
 <ul>
-<li class="fragment">Built-in cheat sheets</li>
-<li class="fragment">Package documentation and the <code class="sourceCode r">?<span class="kw">help</span>()</code> function</li>
+<li class="fragment">Built-in cheat sheets <em>(Help -&gt; Cheatsheets)</em></li>
+<li class="fragment">Package documentation and the <code class="sourceCode r"><span class="kw">help</span>()</code> function</li>
 <li class="fragment">Tutorials via <code class="sourceCode r"><span class="kw">library</span>(learnr)</code> package</li>
 </ul></li>
 <li class="fragment">DataCamp’s free course: <a href="https://www.datacamp.com/courses/free-introduction-to-r">Introduction to R</a></li>

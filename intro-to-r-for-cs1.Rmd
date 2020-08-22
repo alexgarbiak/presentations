@@ -67,17 +67,18 @@ y
 z
 ```
 
-Even though $z$ is assigned the same way as we assigned $y$, note that $y \neq z \implies$ execution order matters in $R$
+Even though $z$ is assigned the same way as we assigned $y$, note that $y \neq z$ so execution order matters in $R$
 
 ## Add power with functions `r emo::ji("rocket")`
 
-We now add **functions** to the $R$ code:
+We now add **functions** to the $R$ code which has the form `function_name(arguments = "values", ...)`{.R}
 
 ```{r vector2}
-x <- c(1, 1, 2, 3, 5)
-y <- x + 2
-z <- sample(y)
-z
+# Combine function, used often to create vectors:
+x <- c(1:3, 6:20, 21:42) 
+# Another function with arguments:
+y <- sample(x, size = 3)
+y
 ```
 
 ## Matrices `r emo::ji("classical building")`
@@ -149,7 +150,7 @@ library(ggplot2)
 
 - Did you get an error from $R$ trying this?
 - To load packages they need to be **installed** first:
-- `install.package("ggplot2")`{.R}
+- `install.packages("ggplot2")`{.R}
 
 ## Importing data `r emo::ji("page with curl")` { .leftAligned }
 
@@ -262,7 +263,7 @@ c(
 
 ## Simple linear regression `r emo::ji("satellite")` { .leftAligned }
 
-Let's "*fit a simple linear regression model to a data set*" using the `lm(formula)`{.R} function and the symbolic syntax `response ~ terms`{.R}
+Let's "*fit a simple linear regression model to a data set*" using the `lm(formula)`{.R} function and the symbolic syntax `predicted ~ explanatory(s)`{.R}
 
 ```{r linear-regression}
 # Note: "women" is a built-in dataset in R
@@ -278,7 +279,7 @@ weight = intercept$_{(-87.52)}$ + $\beta _{(3.45)}$ * height
 
 Let's expand this and "*fit a multiple linear regression model to a data set*" using the `lm()`{.R} function again, a `data.frame` as our data and the symbolic notation:
 
-$y = \alpha + \beta_1X_1 + \beta_2X_2 + \,_{\dots}\, + \beta_nX_n$
+$\hat{Y} = \beta_0 + \beta_1X_1 + \beta_2X_2 + \,_{\dots}\, + \beta_nX_n$
 
 ```{r multiple-linear-regression, eval=FALSE}
 # NOT EVALUATED
@@ -295,10 +296,19 @@ anova(better_model, new_model)
 
 ## Generalised linear models `r emo::ji("milky way")` { .leftAligned }
 
-We also need to be able to "*fit a generalised linear model to a data set*". Here we use the `glm()`{.R} function
+To "*fit a generalised linear model to a data set*" in $R$ we make use of the `glm()`{.R} function. Here we generalise:
+
+- Predicted variable $Y$ follows a exponential **family** distribution
+- Explanatory variables form a **linear predictor** $\beta_0 + \beta_1X_1, \, \beta_2X_2, \, \dots, \, \beta_nX_n$
+- We link $Y$ and the linear predictor using a **link function**
 
 ```{r glm, eval=FALSE}
 # NOT EVALUATED
+glm_model <- 
+  glm(formula = y ~ x1 + x2 + x3
+      family = Gamma(link = "inverse"), 
+      data = data_set
+      )
 ```
 
 # Plotting `r fa("r-project", fill = "steelblue")`  {data-background="intro-to-r-for-cs1_files/assets/nebula.png"}
@@ -357,38 +367,81 @@ qqline(ToothGrowth$len, col = "#FF0000", lwd = 3)
 Histograms can be generated using the `hist()`{.R} function:
 
 ```{r plot-histogram-code, eval=FALSE}
-# Histogram
+set.seed(42) # Fix the result
+
+# Histogram of random draws from the t-distribution
+hist(rt(1000, df = 10), 
+     # Use breaks argument to (optionally) control the binning
+     breaks = seq(from=-5, to=5, by=0.5),
+     col = rgb(173,216,230,80, max = 255), # Colour
+     main = "Histogram of random draws from t-distribution",
+     xlab = "Value"
+     )
+
+# Add second histogram
+y <- rt(1000, df = 20)
+hist(y, col = rgb(255,192,203,80, max = 255), breaks = 21,
+     add = TRUE) # Add onto existing plot
 ```
 
 ## Histogram `r emo::ji("chart decreasing")` 
 
 ```{r plot-histogram, echo=FALSE}
-# Histogram
+set.seed(42) # Fix the result
+
+# Histogram of random draws from the t-distribution
+hist(rt(1000, df = 10), 
+     # Use breaks argument to (optionally) control the binning
+     breaks = seq(from=-5, to=5, by=0.5),
+     col = rgb(173,216,230,80, max = 255), # Colour
+     main = "Histogram of random draws from t-distribution",
+     xlab = "Value"
+     )
+
+# Add second histogram
+y <- rt(1000, df = 20)
+hist(y, col = rgb(255,192,203,80, max = 255), breaks = 21,
+     add = TRUE) # Add onto existing plot
 ```
 
-## Plotting with ggplot2 `r emo::ji("chart increasing")`
+## Plotting with ggplot2 `r emo::ji("chart increasing")` { .leftAligned }
 
-```{r ggplot-code, eval=FALSE}
+Plot with `ggplot()`{.R} in `libary(ggplot2)`{.R}, defining your aesthetics with `aes()`{.R} and the type of chart with the `geom_()`{.R} functions and you might become a [data journalist](https://bbc.github.io/rcookbook/)
+
+```{r ggplot-code}
+# Join datasets together: csv_data (treating Date format) and USTreasury_10YR
+yield_data <- data.frame(DATE = as.Date(csv_data$DATE), yield_rate = csv_data$WGS1YR, term = "1 year")
+yield_data <- rbind(yield_data, 
+                    data.frame(DATE = USTreasury_10YR$DATE, yield_rate = USTreasury_10YR$WGS10YR, term = "10 year"))
+
 library(ggplot2)
+caption <- "Source: Board of Governors of the Federal Reserve System (US)"
+p <- ggplot(yield_data, 
+            aes(x = DATE, y = yield_rate, colour = term)
+            ) +
+  geom_line() +
+  labs(x = "", colour = "Term", y = "Percent",caption = caption) +
+  ggtitle("1-Year and 10-Year Treasury Yield Curve Rates") + 
+  theme_bw()
 ```
 
 ## ggplot2 Plot `r emo::ji("chart increasing")`
 
 ```{r ggplot, echo=FALSE}
-library(ggplot2)
+p
 ```
 
 # CS1 Actuarial Examples {data-background="intro-to-r-for-cs1_files/assets/galaxy.jpg"}
 
 ## CS1 Question 1 `r emo::ji("notebook with decorative cover")` { .leftAligned }
 
-- *Given $X \sim \mathcal{N}(\mu,\,\sigma^{2})$,*
+- *Given a sample from $X \sim \mathcal{N}(\mu,\,\sigma^{2})$,*
 
-(i) *Estimate $\mathbb{E}[X]$*
+1. *Calculate the sample mean, $\bar{x}$*
 
-(ii) *Calculate a 95% confidence interval ("CI") for $\mathbb{E}[X]$*
+2. *Calculate a 95% confidence interval ("CI") for $\mathbb{E}[X]$*
 
-(iii) *Calculate a 95% CI for $\mathbb{E}[X]$ using a bootstrap method with a sample size of 10,000*
+3. *Calculate a 95% CI for $\mathbb{E}[X]$ using a bootstrap method with a sample size of 10,000*
 
 ## CS1 Question 1: Answer (Part 1) `r emo::ji("book")`  { .leftAligned }
 
@@ -449,23 +502,44 @@ quantile(x_bootstrapped, probs = confidence_interval)
 
 ## CS1 Question 2 `r emo::ji("notebook with decorative cover")`  { .leftAligned }
 
-Another example
+- *Given the dataset "abc"*:
 
-## CS1 Question 2: Answer `r emo::ji("book")`  { .leftAligned }
+1. *Fit a generalised linear model to the dataset using a Poisson distribution*
 
-```{r q2-answer}
-#TO DO
+2. *State the formula of the model fitted*
+
+3. *Review the model fit*
+
+```{r q2-question}
+
 ```
 
-## CS1  Question 3 `r emo::ji("notebook with decorative cover")`  { .leftAligned }
+## CS1 Question 2: Answer (Part 1) `r emo::ji("book")`  { .leftAligned }
 
-Fit a GLM analysis to the given data using a Poisson distribution
-
-
-## CS1 Question 3: Answer `r emo::ji("book")`  { .leftAligned }
-
-```{r q3-answer}
+```{r q2-answer-part1}
 #TO DO
+# glm_model <- glm(
+#   y ~ x1 + x2,
+#   family = Gamma(link = inverse),
+#   data = data_set
+# )
+```
+
+
+## CS1 Question 2: Answer (Part 2) `r emo::ji("book")`  { .leftAligned }
+
+```{r q2-answer-part2}
+#TO DO
+#coef(glm_model)
+```
+
+Therefore $y = 2.1 + 3.2x_1 + 0.4x_2$ where $x_1$ is the "abc" variable and $x_2$ is the "def" variable
+
+## CS1 Question 2: Answer (Part 3) `r emo::ji("book")`  { .leftAligned }
+
+```{r q2-answer-part3}
+#TO DO
+#summary(glm_model)
 ```
 
 # Final remarks {data-background="intro-to-r-for-cs1_files/assets/starry-night.jpg"}
@@ -474,8 +548,8 @@ Fit a GLM analysis to the given data using a Poisson distribution
 
 - Some recommendations:
   - RStudio:
-    - Built-in cheat sheets
-    - Package documentation and the `?help()`{.R} function
+    - Built-in cheat sheets *(Help -> Cheatsheets)*
+    - Package documentation and the `help()`{.R} function
     - Tutorials via `library(learnr)`{.R} package
   - DataCamp's free course: [Introduction to R](https://www.datacamp.com/courses/free-introduction-to-r)
   - IFoA's [guide](https://www.actuaries.org.uk/system/files/field/document/R-Guide_technical.pdf) on "*get up and running with R*"
