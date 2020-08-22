@@ -502,45 +502,48 @@ quantile(x_bootstrapped, probs = confidence_interval)
 
 ## CS1 Question 2 `r emo::ji("notebook with decorative cover")`  { .leftAligned }
 
-- *Given the dataset "abc"*:
+- *Given the dataset "house_data.csv" (given below)*:
 
-1. *Fit a generalised linear model to the dataset using a Poisson distribution*
+1. *Fit a generalised linear model to predict house prices using a Gamma distribution*
 
 2. *State the formula of the model fitted*
 
 3. *Review the model fit*
 
 ```{r q2-question}
-
+house_data <- read.csv("intro-to-r-for-cs1_files/data/house_data.csv")
+head(house_data[,-c(1,8:11)]) # Glimpse of data set
 ```
 
 ## CS1 Question 2: Answer (Part 1) `r emo::ji("book")`  { .leftAligned }
 
+Let's build a GLM with response variables "*YearBuilt*", "*HouseSize*" and "*RoofType*":
+
 ```{r q2-answer-part1}
-#TO DO
-# glm_model <- glm(
-#   y ~ x1 + x2,
-#   family = Gamma(link = inverse),
-#   data = data_set
-# )
+glm_model <- glm(
+  Price ~ YearBuilt + HouseSize + RoofType,
+  family = Gamma(link = "inverse"),
+  data = house_data
+)
 ```
 
 
 ## CS1 Question 2: Answer (Part 2) `r emo::ji("book")`  { .leftAligned }
 
 ```{r q2-answer-part2}
-#TO DO
-#coef(glm_model)
+coef(glm_model)
 ```
 
-Therefore $y = 2.1 + 3.2x_1 + 0.4x_2$ where $x_1$ is the "abc" variable and $x_2$ is the "def" variable
+We have fit a model with $\bar{\nu} = \frac{1}{\mu} =$ 12,772 $-$ 28,635,925$x_1 \,-$ 498,345,682$x_2 \,+$ 158,657,830$x_3$
+
+where $\bar{\nu}$ is the predicted variable *"Price"* and $x_1,\, x_2,\, x_3$ are the *"YearBuilt"*, *"HouseSize"* and *"RoofType"* variables respectively.
 
 ## CS1 Question 2: Answer (Part 3) `r emo::ji("book")`  { .leftAligned }
 
 ```{r q2-answer-part3}
-#TO DO
-#summary(glm_model)
+summary(glm_model)
 ```
+*"YearBuilt"* and *"HouseSize"* parameters are significant at the 0.1% level
 
 # Final remarks {data-background="intro-to-r-for-cs1_files/assets/starry-night.jpg"}
 
