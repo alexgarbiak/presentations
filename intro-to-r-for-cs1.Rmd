@@ -11,7 +11,7 @@ output:
     center: false
     incremental: true
     self_contained: false
-    reveal_plugins: ["menu"]
+    reveal_plugins: ["menu", "zoom"]
     reveal_options:
       menu:
         markers: true
@@ -26,8 +26,8 @@ library(fontawesome) # For logos
 
 # Why are we here? {data-background="intro-to-r-for-cs1_files/assets/abstract.jpg" .white .center}
 
-- To pass the `CS1` *(Part B)* exam `r emo::ji("thumbs up")`
-- To be persuaded that `R` is great for actuarial work `r emo::ji("eyes")` ... maybe next time.
+- To pass the **CS1** *(Part B)* exam `r emo::ji("thumbs up")`
+- To be persuaded that $R$ is great for actuarial work `r emo::ji("eyes")` ... maybe next time.
 
 # The Basics `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/coding.jpg" .white .center}
 <span class="footnote">Yes ... it's `HTML`, not `R``r emo::ji("smirking face")`</span>
@@ -67,11 +67,11 @@ y
 z
 ```
 
-Even though `z` is assigned the same way as we assigned `y`, `y` does not equal `z`, execution order matters in `R`!
+Even though $z$ is assigned the same way as we assigned $y$, note that $y \neq z \implies$ execution order matters in $R$
 
 ## Add power with functions `r emo::ji("rocket")`
 
-We now add **functions** to the `R` code:
+We now add **functions** to the $R$ code:
 
 ```{r vector2}
 x <- c(1, 1, 2, 3, 5)
@@ -82,7 +82,7 @@ z
 
 ## Matrices `r emo::ji("classical building")`
 
-Let's create a **matrix** in `R`
+Let's create a **matrix** in $R$
 
 *Note:* **Matrix multiplication** requires the `%*%` syntax
 
@@ -93,7 +93,7 @@ first_matrix %*% first_matrix
 
 ## Dataframes `r emo::ji("factory")` { .leftAligned }
 
-A `data.frame` is a very popular data structure used in `R`. Each input variable has to have the same length but can be of different types (*string, integers, booleans, etc.*).
+A `data.frame` is a very popular data structure used in $R$. Each input variable has to have the same length but can be of different types (*strings, integers, booleans, etc.*).
 
 ```{r dataframes}
 # Input vectors for the data.frame
@@ -129,16 +129,25 @@ x <- 1:10
 x[x != 5 & x < 7]
 ```
 
+## Selecting objects `r emo::ji("microscope")` { .leftAligned }
+
+We can select objects using the **\$** symbol - see `?Extract`{.R} for more help here
+
+```{r selecting}
+#data.frame[rows to select, columns to select]
+solar_system[solar_system$name == "Jupiter", c(1:2)]
+```
+
 ## Expand R with packages `r emo::ji("package")` { .leftAligned }
 
-We can extend `R`'s functionality by loading **packages**:
+We can extend $R$'s functionality by loading **packages**:
 
 ```{r packages}
 # Load the ggplot2 package
 library(ggplot2)
 ```
 
-- Did you get an error from `R` trying this?
+- Did you get an error from $R$ trying this?
 - To load packages they need to be **installed** first:
 - `install.package("ggplot2")`{.R}
 
@@ -155,9 +164,11 @@ csv_data <-
 load("intro-to-r-for-cs1_files/data/USTreasury_10YR.RData")
 ```
 
+`.txt` files can be loaded using the `read.table()`{.R} function
+
 ## Random Variables `r emo::ji("slot machine")`
 
-`R` was designed to be used for statistical computing - so it handles **randomness** well!
+$R$ was designed to be used for statistical computing - so it handles **randomness** well!
 
 ```{r random-variables}
 set.seed(42) # Fixes result
@@ -196,60 +207,174 @@ mean(die_throws)
 ```{r summary-stats}
 x <- sample(1:100, 10)
 summary(x)
-sqrt(var(x))
+sd(x) # Or: sqrt(var(x)) 
 ```
 
-## Calculating correlations `r emo::ji("notebook")`
+## Calculating correlations `r emo::ji("notebook")` { .leftAligned }
 
-Let's calculate the "*Pearson’s, Spearman’s and Kendall’s measures of correlation for bivariate data*"
+Let's calculate the "*Pearson’s, Spearman’s and Kendall’s measures of correlation for bivariate data*" using the `cor(x, y, method = "method-name")`{.R} function\*:
+
+```{r correlation}
+# Note: Data was loaded in the "Importing Data" section*
+cor(
+  x = csv_data$WGS1YR, 
+  y = USTreasury_10YR$WGS10YR, 
+  method = "pearson"
+  )
+```
+
+<span class="footnote">\*Using the US Treasury data we loaded <a href="#/importing-data">here</a>.</span>
 
 # Statistical inference `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/stats.jpg" .center}
 
-## Confidence intervals `r emo::ji("telescope")` { .leftAligned }
+## Population mean confidence intervals `r emo::ji("telescope")` { .leftAligned }
 
-Let's calculate confidence intervals for "*the mean and the variance of a normal distribution*" and "*a binomial probability and a Poisson mean*"
+Let's calculate confidence intervals for "*the mean ... of a normal distribution*" using Student's t-Test using the `t.test()`{.R} function:
 
-## Bootstrap method `r emo::ji("rocket")` { .leftAligned }
+```{r mean-confidence-intervals}
+set.seed(42) # To fix result
+# We create x_1, x_2, ... x_100 with X ~ N(0,1)
+x <- rnorm(100)
 
-Let's use the bootstrap method to "*estimate properties of an estimator*" and "*obtain confidence intervals*".
+# 99% CI for population mean:
+as.vector(
+  t.test(x, conf.level = 0.99)$conf.int
+  )
+```
+
+## Population variance confidence intervals `r emo::ji("telescope")` { .leftAligned }
+
+We can also calculate confidence intervals for "*the variance of a normal distribution*" using the $\chi^2$ distribution:
+
+```{r variance-confidence-intervals}
+set.seed(42) # To fix result
+# We create x_1, x_2, ... x_100 with X ~ N(0,1)
+x <- rnorm(100)
+
+degrees_freedom <- length(x) - 1
+sample_var_x <- var(x)
+# 95% CI for population variance:
+c(
+  degrees_freedom * sample_var_x / qchisq(0.975, degrees_freedom),
+  degrees_freedom * sample_var_x / qchisq(0.025, degrees_freedom)
+)
+```
 
 ## Simple linear regression `r emo::ji("satellite")` { .leftAligned }
 
-Let's "*fit a simple linear regression model to a data set*"
+Let's "*fit a simple linear regression model to a data set*" using the `lm(formula)`{.R} function and the symbolic syntax `response ~ terms`{.R}
 
-## Multiple linear regression `r emo::ji("satellite")` { .leftAligned }
+```{r linear-regression}
+# Note: "women" is a built-in dataset in R
+simple_linear_model <- lm(weight ~ height, data = women)
+summary(simple_linear_model)$coefficients
+```
 
-Let's expand this and "*fit a multiple linear regression model to a data set*"
+We have a model for weight as:
+
+weight = intercept$_{(-87.52)}$ + $\beta _{(3.45)}$ * height
+
+## Multiple linear regression `r emo::ji("rocket")` { .leftAligned }
+
+Let's expand this and "*fit a multiple linear regression model to a data set*" using the `lm()`{.R} function again, a `data.frame` as our data and the symbolic notation:
+
+$y = \alpha + \beta_1X_1 + \beta_2X_2 + \,_{\dots}\, + \beta_nX_n$
+
+```{r multiple-linear-regression, eval=FALSE}
+# NOT EVALUATED
+better_model <- lm(y ~ x1 + x2 + x3, data = data_set)
+summary(multiple_linear_model) # Provides full results of the lm
+
+# Residual standard error:
+sigma(better_model) / mean(data_set$y)
+
+# Compare models:
+new_model <- lm(y ~ x1 + x2)
+anova(better_model, new_model)
+```
 
 ## Generalised linear models `r emo::ji("milky way")` { .leftAligned }
 
-We also need to be able to "*fit a generalised linear model to a data set*":
+We also need to be able to "*fit a generalised linear model to a data set*". Here we use the `glm()`{.R} function
 
-# Plotting `r fa("r-project", fill = "steelblue")` {data-background="intro-to-r-for-cs1_files/assets/nebula.png"}
-
-## Base plotting `r emo::ji("chart decreasing")` 	
-
-We need to be able to "... *undertake exploratory data visualizations*"
-
-```{r base-plot}
-# Bar chart
+```{r glm, eval=FALSE}
+# NOT EVALUATED
 ```
 
-## More plots `r emo::ji("chart decreasing")` 
+# Plotting `r fa("r-project", fill = "steelblue")`  {data-background="intro-to-r-for-cs1_files/assets/nebula.png"}
 
-```{r plot-hist}
+## Base plotting `r emo::ji("chart decreasing")` { .leftAligned }
+
+We need to be able to "... *undertake exploratory data visualizations*", here we use the `plot()`{.R} function:
+
+```{r base-plot-code, eval=FALSE}
+plot(
+    x = USTreasury_10YR$DATE, y = USTreasury_10YR$WGS10YR, # Data
+    main = "10-Year Treasury Constant Maturity Rate", # Title
+    sub = "Source: Board of Governors of the Federal Reserve System (US)",
+    xlab = "Year", ylab = "Percent", # Axis labels
+    type = "l" # Type of plot - here we use a l(ine) graph
+  )
+```
+
+## Scatter plot `r emo::ji("chart decreasing")` 	
+
+```{r base-plot, echo=FALSE}
+plot(
+    x = USTreasury_10YR$DATE, y = USTreasury_10YR$WGS10YR, # Data
+    main = "10-Year Treasury Constant Maturity Rate", # Title
+    sub = "Source: Board of Governors of the Federal Reserve System (US)",
+    xlab = "Year", ylab = "Percent", # Axis labels
+    type = "l" # Type of plot - here we use a l(ine) graph
+  )
+```
+
+## Producing Q-Q plots `r emo::ji("chart decreasing")` { .leftAligned }
+
+We can produce Q-Q plots using the `qqnorm()`{.R} and `qqplot()`{.R} functions. Add a theoretical line using the `qqline()`{.R} function.
+
+```{r plot-qq-code, eval=FALSE}
+# Note: "ToothGrowth" is a built-in dataset in R
+qqnorm(ToothGrowth$len, 
+       pch = 15, # plotting symbol
+       col = "blue") # colour 
+
+# Add a reference line:
+qqline(ToothGrowth$len,
+       col = "#FF0000", # can also use RGB
+       lwd = 3) # line width
+```
+
+## Q-Q plot `r emo::ji("chart decreasing")` 
+
+```{r plot-qq, echo=FALSE}
+qqnorm(ToothGrowth$len, pch = 15, col = "blue")
+qqline(ToothGrowth$len, col = "#FF0000", lwd = 3)
+```
+
+## Producing historgrams `r emo::ji("chart decreasing")` 
+
+Histograms can be generated using the `hist()`{.R} function:
+
+```{r plot-histogram-code, eval=FALSE}
 # Histogram
 ```
 
-## QQ plots `r emo::ji("chart decreasing")` 
+## Histogram `r emo::ji("chart decreasing")` 
 
-```{r plot-qq}
-# qqplot example
+```{r plot-histogram, echo=FALSE}
+# Histogram
 ```
 
-## Plots looks nicer with ggplot2 `r emo::ji("chart increasing")`
+## Plotting with ggplot2 `r emo::ji("chart increasing")`
 
-```{r ggplot}
+```{r ggplot-code, eval=FALSE}
+library(ggplot2)
+```
+
+## ggplot2 Plot `r emo::ji("chart increasing")`
+
+```{r ggplot, echo=FALSE}
 library(ggplot2)
 ```
 
@@ -349,9 +474,9 @@ Fit a GLM analysis to the given data using a Poisson distribution
 
 - Some recommendations:
   - RStudio:
-    - Tutorials via `library(learnr)`{.R} package
     - Built-in cheat sheets
-    - Package documentation
+    - Package documentation and the `?help()`{.R} function
+    - Tutorials via `library(learnr)`{.R} package
   - DataCamp's free course: [Introduction to R](https://www.datacamp.com/courses/free-introduction-to-r)
   - IFoA's [guide](https://www.actuaries.org.uk/system/files/field/document/R-Guide_technical.pdf) on "*get up and running with R*"
   
