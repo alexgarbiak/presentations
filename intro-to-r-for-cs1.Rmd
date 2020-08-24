@@ -305,7 +305,7 @@ To "*fit a generalised linear model to a data set*" in $R$ we make use of the `g
 ```{r glm, eval=FALSE}
 # NOT EVALUATED
 glm_model <- 
-  glm(formula = y ~ x1 + x2 + x3
+  glm(formula = y ~ x1 + x2 + x3,
       family = Gamma(link = "inverse"), 
       data = data_set
       )
@@ -575,4 +575,8 @@ summary(glm_model)
 
 # The End {data-background="intro-to-r-for-cs1_files/assets/blackhole.png" .white .leftAligned .center}
 
-Click [here](https://github.com/alexgarbiak/presentations/archive/intro-to-r-for-cs1.zip) to download
+Download: [PDF presentation](intro-to-r-for-cs1.pdf)
+
+Download: [HTML presentation](https://github.com/alexgarbiak/presentations/archive/intro-to-r-for-cs1.zip)
+
+View: [Source code](https://github.com/alexgarbiak/presentations/tree/intro-to-r-for-cs1)
