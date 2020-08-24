@@ -575,8 +575,6 @@ summary(glm_model)
 
 # The End {data-background="intro-to-r-for-cs1_files/assets/blackhole.png" .white .leftAligned .center}
 
-Download: [PDF presentation](intro-to-r-for-cs1.pdf)
-
 Download: [HTML presentation](https://github.com/alexgarbiak/presentations/archive/intro-to-r-for-cs1.zip)
 
 View: [Source code](https://github.com/alexgarbiak/presentations/tree/intro-to-r-for-cs1)
